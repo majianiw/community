@@ -1,0 +1,90 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 2659201192
+    url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&userSSL=true&serverTimeZone=Asia/shanghai
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 2659201192@qq.com
+    password: zoidpuynoergeajb
+    protocol: smtps
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: test-consumer-group
+      # 配置项用来开启或关闭消费者自动提交偏移量
+      enable-auto-commit: true
+      # 配置项用来设置自动提交的时间间隔，单位为毫秒。
+      auto-commit-interval: 1000
+
+  # RedisProperties
+  redis:
+    database: 11
+    host: localhost
+    port: 6379
+  # taskExecutionProperties
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 15
+        queue-size: 100
+    # taskSchedulingExecutionProperties定时启动
+    scheduling:
+      pool:
+        size: 5
+
+  quartz:
+    job-store-type: jdbc
+    scheduler-name: communityScheduler
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanced: AUTO
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            isClustered: true
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
+
+server:
+  servlet:
+    context-path: /community
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    useGeneratedKeys: true
+    mapUnderscoreToCamelCase: true
+  mapper-locations: classpath:mapper/*.xml
+community:
+  path:
+    domain: http://localhost:8080
+    upload: D:/upload
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        exclude: info,caches
+
+#qiniu
+#qiniu:
+#  key:
+#    access: IkxnvKyRn5nLAInGtmdKqw_FL0k41dXwVW7ZGqlh
+#    secret: 6hyHer9Eg14xpjaPWKylM5yQvGrSWk60JJCvqpi7
+#  bucket:
+#    header:
+#      name: nowcoderm
+#      url: http://rs7lkxmo9.hb-bkt.clouddn.com/
